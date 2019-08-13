@@ -5,6 +5,8 @@ dialog_space = 1000
 max_length = 100
 filenames = []
 dialogs = []
+num_utterances = [0]
+max_utterances = 1000000
 
 
 def process_ascii(paragraph_list, filename):
@@ -17,13 +19,15 @@ def process_ascii(paragraph_list, filename):
         dialogs.append([])
 
       utt = ''
-      segments = ('a' + p + 'a').split('"')
+      segments = ('YXC' + p + 'YXC').split('"')
       # Join into a single utterance since we are inside a paragraph.
-      for i, segment in enumerate(segments):
-        if i % 2 == 1:
-          utt += segment + ' '
+      if len(segments) > 2 and len(segments) % 2 == 1:
+        for i, segment in enumerate(segments):
+          if i % 2 == 1:
+            utt += segment + ' '
 
-      dialogs[-1].append(filename + ':  ' + ' '.join(utt.split()))
+        dialogs[-1].append(filename + ':  ' + ' '.join(utt.split()))
+        num_utterances[0] += 1
 
       # Add chars after last comma.
       chars_since_dialog = len(segments[-1])
@@ -48,6 +52,7 @@ def process_utf(paragraph_list, filename):
         utt += segment.split('â€ť')[0] + ' '
 
       dialogs[-1].append(filename + ':  ' + ' '.join(utt.split()))
+      num_utterances[0] += 1
 
       # Add chars after last comma.
       chars_since_dialog = len(segments[-1].split('â€ť')[-1])
@@ -56,50 +61,68 @@ def process_utf(paragraph_list, filename):
       chars_since_dialog += len(p)
 
 
-process = {'ASCII': process_ascii,
-           'UTF-8': process_utf,
-           'ISO-8859-1': process_ascii,
-           'ISO-646-US (US-ASCII)': process_ascii,
-           'iso-8859-1': process_ascii,
-           'US-ASCII': process_ascii,
-           'UTFâ€8': process_utf,
-           'ISO 8859-1': process_ascii,
-           'ASCII, with a couple of ISO-8859-1 characters': process_ascii,
-           'ISO Latin-1': process_ascii,
-           'ISO-Latin-1': process_ascii}
+enc_table = {'ASCII': 'iso-8859-1',
+           'UTF-8': 'utf8',
+           'UTF‐8': 'utf8',
+           'ISO-8859-1': 'iso-8859-1',
+           'ISO-646-US (US-ASCII)': 'iso-8859-1',
+           'iso-8859-1': 'iso-8859-1',
+           'US-ASCII': 'iso-8859-1',
+           'UTFâ€8': 'utf8',
+           'ISO 8859-1': 'iso-8859-1',
+           'ASCII, with a couple of ISO-8859-1 characters': 'iso-8859-1',
+           'ISO Latin-1': 'iso-8859-1',
+           'ISO-Latin-1': 'iso-8859-1'}
+
+process = {'iso-8859-1': process_ascii,
+           'utf8': process_utf}
 
 for filename in os.listdir('texts'):
+  if os.path.isdir('texts/' + filename):
+    continue
+  if os.path.getsize('texts/' + filename) > 10000000:
+    continue
+  # Limiting the size of the dataset.
+  if num_utterances[0] > max_utterances:
+    break
   if filename.split('-')[0] not in filenames:
+    paragraph_list = ['']
     encoding = ''
     language = ''
     # Deal with separate file types.
     filenames.append(filename.split('-')[0])
+
+    # First find the encoding and language of the file.
     with open('texts/' + filename, errors='ignore') as f:
-      # Paragraphs are separated by new line.
-      # Usually one paragraph contains a single speaker.
-      paragraph_list = ['']
       for i, line in enumerate(f):
         # Check for encoding type.
-        if i < 200:
-          if 'Character set encoding:' in line:
-            encoding = line.split(':')[1].strip()
+        if 'Character set encoding:' in line:
+          try:
+            encoding = enc_table[line.split(':')[1].strip()]
+          except KeyError:
+            break
 
-          # Only english language.
-          if 'Language:' in line:
-            print(line)
-            if line.split(':')[1] != ' English\n':
-              language = 'non-english'
-              break
-
-        # End of the book.
-        if '*** END OF THIS PROJECT GUTENBERG' in line:
+        # Only english language.
+        if 'Language:' in line:
+          print(line)
+          if line.split(':')[1] != ' English\n':
+            language = 'non-english'
+        if (language and encoding) or i > 500:
           break
-        if line == '\n':
-          paragraph_list.append('')
-        else:
-          paragraph_list[-1] += ' ' + line.strip('\n')
 
     if language != 'non-english' and encoding:
+      with open('texts/' + filename, errors='ignore') as f:
+        # Paragraphs are separated by new line.
+        # Usually one paragraph contains a single speaker.
+        for line in f:
+          # End of the book.
+          if '*** END OF THIS PROJECT GUTENBERG' in line:
+            break
+          if line == '\n':
+            paragraph_list.append('')
+          else:
+            paragraph_list[-1] += ' ' + line.strip('\n')
+
       process[encoding](paragraph_list, filename)
 
 lengths = []
