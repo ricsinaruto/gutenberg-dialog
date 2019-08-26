@@ -11,8 +11,8 @@ for filename in os.listdir(cfg.directory):
 
   with open(filename, errors='ignore', encoding='utf-8') as f:
     for line in f:
-      vocab.update(line.strip('\n').lower().split())
+      vocab.update(line.strip('\n').split())
 
 with open('vocab.txt', 'w', encoding='utf-8') as f:
   for word, count in vocab.most_common():
-    f.write(word + ':' + str(count) + '\n')
+    f.write(word + '<SEP>' + str(count) + '\n')

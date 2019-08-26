@@ -3,7 +3,8 @@ import os
 from config import Config
 
 
-delimiters = ['"', '“']
+delimiters = ['"', '“', '‘']
+abc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
 dialogs = []
 num_utterances = [0]
@@ -24,17 +25,27 @@ def process_file(cfg, paragraph_list, filename, delimiter='"'):
       # Augment the segment so the splitting will always be correct.
       segments = ('YXC' + p + 'YXC').split(delimiter)
 
+      good_segment = True
       # Join into a single utterance since we are inside a paragraph.
       if len(segments) > 2 and len(segments) % 2 == 1:
         for i, segment in enumerate(segments):
+          if i == 1 and len(segment):
+            # Make sure that the first sentence is upper-case thus a true utterance.
+            if segment[0] in abc:
+              good_segment = False
+              break
           if i % 2 == 1:
             utt += segment + ' '
 
-        dialogs[-1].append(filename + ':  ' + ' '.join(utt.split()))
-        num_utterances[0] += 1
+        if good_segment:
+          dialogs[-1].append(filename + ':  ' + ' '.join(utt.split()))
+          num_utterances[0] += 1
 
       # Add chars after last comma.
-      chars_since_dialog = len(segments[-1]) - 3
+      if good_segment:
+        chars_since_dialog = len(segments[-1]) - 3
+      else:
+        chars_since_dialog += len(p)
     else:
       # Otherwise add the whole paragraph since there was no dialog
       chars_since_dialog += len(p)
@@ -81,16 +92,10 @@ def main():
     delimiter = '_'
     num_words = 0
     count_underscores = 0
-
     with open(
       cfg.directory + filename, errors='ignore', encoding='utf-8') as f:
       for i, line in enumerate(f):
         num_words += len(line.split())
-
-        # End of the book.
-        if ('*** END OF THIS PROJECT GUTENBERG' in line or
-            '**The Legal Small Print**' in line):
-          break
 
         if line[0] == '_':
           count_underscores += 1
@@ -108,11 +113,18 @@ def main():
     # Try to find a delimiter with higher count than underscores.
     biggest = count_underscores
     for d in delimiters:
-      num_chars = text.count(d)
+      if d == '“' or d == '‘':
+        num_chars = text.count(d) * 2
+      else:
+        num_chars = text.count(d)
       if num_chars > biggest:
         biggest = num_chars
         delimiter = d
 
+    # We have to deal with single quatation marks.
+    if delimiter == '‘':
+      paragraph_list = [p.replace('’ ', '‘ ')for p in paragraph_list]
+    # Unify the later processing.
     if delimiter == '“':
       paragraph_list = [p.replace('”', '“')for p in paragraph_list]
 
