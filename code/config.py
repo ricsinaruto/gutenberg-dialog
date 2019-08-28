@@ -7,7 +7,7 @@ class Config:
   old_vocab_threshold = 0.45
   old_size_threshold = 20000  # number of minimum words
   language = 'English'
-  directory = 'no_old_en/'
+  directory = 'en/'
   out_dir = 'no_old_en/'
   languages = ['english', 'french', 'german', 'finnish', 'dutch', 'italian',
                'spanish', 'portuguese', 'chinese', 'greek', 'hungarian',
