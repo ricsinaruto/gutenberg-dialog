@@ -1,10 +1,11 @@
 class Config:
-  dialog_space = 200
+  dialog_space = 150
   max_length = 100
   max_first_lines = 200
   max_utterances = 100000000
-  min_delimiters = 50  # per 10.000 words
-  old_vocab_threshold = 0.5
+  min_delimiters = 150  # per 10.000 words
+  old_vocab_threshold = 0.45
+  old_size_threshold = 20000  # number of minimum words
   language = 'English'
   directory = 'no_old_en/'
   out_dir = 'no_old_en/'

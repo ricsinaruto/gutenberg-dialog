@@ -5,13 +5,11 @@ from config import Config
 
 delimiters = ['"', '“', '‘']
 abc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-
-dialogs = []
 num_utterances = [0]
 
 
 # Extract the dialogs from one file.
-def process_file(cfg, paragraph_list, filename, delimiter='"'):
+def process_file(cfg, dialogs, paragraph_list, filename, delimiter='"'):
   # After how many characters should we interpret the utterance as new dialog.
   chars_since_dialog = cfg.dialog_space + 1
   for p in paragraph_list:
@@ -51,7 +49,7 @@ def process_file(cfg, paragraph_list, filename, delimiter='"'):
       chars_since_dialog += len(p)
 
 
-def process_file_(cfg, paragraph_list, filename):
+def process_file_(cfg, dialogs, paragraph_list, filename):
   # After how many characters should we interpret the utterance as new dialog.
   chars_since_dialog = cfg.dialog_space + 1
   for p in paragraph_list:
@@ -81,6 +79,7 @@ def process_file_(cfg, paragraph_list, filename):
 def main():
   cfg = Config()
   file_stats = {}
+  dialogs = []
 
   # Go through all books.
   for filename in os.listdir(cfg.directory):
@@ -128,22 +127,31 @@ def main():
     if delimiter == '“':
       paragraph_list = [p.replace('”', '“')for p in paragraph_list]
 
+    # Store the dialogs before processing.
+    old_dialogs = list(dialogs)
     # Need a min. number of delimiters for further processing.
     if biggest / num_words * 10000 > cfg.min_delimiters:
       file_stats[filename] = [num_words, 0]
       # Special treatment.
       if delimiter == '_':
-        process_file_(cfg, paragraph_list, filename)
+        process_file_(cfg, dialogs, paragraph_list, filename)
       else:
-        process_file(cfg, paragraph_list, filename, delimiter)
+        process_file(cfg, dialogs, paragraph_list, filename, delimiter)
     else:
+      pass
+      #print(filename)
+
+    # Check whether there are enough dialogs in this file.
+    if (len(dialogs) - len(old_dialogs)) / num_words * 10000 < cfg.min_delimiters / 10:
       print(filename)
+      dialogs = list(old_dialogs)
 
   lengths = []
   dialog_lengths = []
+  sample = open('sample.txt', 'w', encoding='utf-8')
   # Save the dialogs
   with open('dialogs.txt', 'w', encoding='utf-8') as f:
-    for d in dialogs:
+    for ind, d in enumerate(dialogs):
       split_indices = []
       # Remove too long utterances and split dialogs accordingly.
       for i, u in enumerate(d):
@@ -160,13 +168,18 @@ def main():
           f.write('\n')
           f.write('\n')
 
+          if ind % 100 == 0:
+            sample.write('\n'.join(d))
+            sample.write('\n')
+            sample.write('\n')
+
           file_stats[d[0].split(':')[0]][1] += len(d)
           dialog_lengths.append(len(d))
           lengths.extend([len(u.split()) for u in d])
 
-  print('Average utterance length: ' + str(sum(lengths) / len(lengths)))
+  print('Average utterance length: ' + str(sum(lengths) / (len(lengths) + 1)))
   print(
-    'Average dialog length: ' + str(sum(dialog_lengths) / len(dialog_lengths)))
+    'Average dialog length: ' + str(sum(dialog_lengths) / (len(dialog_lengths) + 1)))
 
   # Save. statistics to file.
   with open('statistics.txt', 'w') as f:

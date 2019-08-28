@@ -34,6 +34,8 @@ for filename in os.listdir(cfg.directory):
     if value > 0:
       difference += value
 
-  if difference / all_words < cfg.old_vocab_threshold:
-    print(filename)
+  # We need to let small books through because the distribution might be skewed.
+  if difference / all_words < cfg.old_vocab_threshold or total_words < cfg.old_size_threshold:
     shutil.copy('en/' + filename, cfg.out_dir + filename)
+  else:
+    print(filename)
