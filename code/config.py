@@ -10,6 +10,7 @@ class Config:
   directory = 'en/'
   split = 'test'
   out_dir = 'no_old_en/'
+  filename = 'sample'
   languages = ['english', 'french', 'german', 'finnish', 'dutch', 'italian',
                'spanish', 'portuguese', 'chinese', 'greek', 'hungarian',
                'swedish', 'esperanto', 'latin', 'danish', 'tagalog', 'catalan',
