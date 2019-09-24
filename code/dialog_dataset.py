@@ -6,15 +6,15 @@ for split in ['train', 'dev', 'test']:
         dialogs.append([])
 
       else:
-        dialogs[-1].append(line)
+        dialogs[-1].append(line.strip('\n'))
 
   source = open(split + 'Source.txt', 'w', encoding='utf-8')
   target = open(split + 'Target.txt', 'w', encoding='utf-8')
 
   for d in dialogs:
     for i, u in enumerate(d[:-1]):
-      source.write(' <eou> '.join(d[:i + 1]))
-      target.write(d[i + 1])
+      source.write(' <eou> '.join(d[:i + 1]) + '\n')
+      target.write(d[i + 1] + '\n')
 
   source.close()
   target.close()
