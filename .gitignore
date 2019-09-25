@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 texts/
+data/
 *.txt
 
 # C extensions
