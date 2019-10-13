@@ -1,7 +1,6 @@
 class Config:
   dialog_space = 150
   max_length = 100
-  max_first_lines = 200
   max_utterances = 100000000
   min_delimiters = 150  # per 10.000 words
   old_vocab_threshold = 0.45
