@@ -6,5 +6,7 @@ class Config:
   min_delimiters = 150  # per 10.000 words
   kl_threshold = 2
   size_threshold = 20000  # minimum number of words in a book for filtering
+  vocab_threshold = 0.2
   auto = False  # if True, run pipeline with questions
+  clean_dialogs = True # if True, run preprocessing on dialogs
   languages = ['en', 'de']

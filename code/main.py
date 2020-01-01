@@ -37,6 +37,14 @@ def main():
   parser.add_argument('-a', '--auto', default=config.auto,
                       help='Run in auto mode instead of pipeline step-by-step',
                       action='store_true')
+  parser.add_argument('-c', '--clean_dialogs', default=config.clean_dialogs,
+                      help='Whether to run pre-processing on dialogs',
+                      action='store_false')
+  parser.add_argument('-v', '--vocab_threshold',
+                      default=config.vocab_threshold,
+                      help='Ratio of max <unk> tokens allowred in a dialog ' +
+                      '(default: %(default)s)',
+                      metavar='', type=int)
 
   parser.parse_args(namespace=config)
   print(config.auto)

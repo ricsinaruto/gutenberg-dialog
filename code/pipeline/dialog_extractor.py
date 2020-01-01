@@ -1,5 +1,7 @@
 import os
 
+from pipeline.filter import post_filter
+
 
 # globals
 delimiters = ['"', '“', '‘']
@@ -83,17 +85,18 @@ def process_file_(cfg, dialogs, paragraph_list, filename):
 
 def extract(cfg, directory=os.path.join('data', 'filtered')):
   for lang in cfg.languages:
+    print('Extracting dialogs for ' + lang + ' language.')
     file_stats = {}
     dialogs = []
     num_utterances = 0
 
     # Go through all books.
-    for filename in os.listdir(os.path.join(directory, lang, 'books')):
+    for i, filename in enumerate(os.listdir(os.path.join(directory, lang))):
       # Limiting the size of the dataset.
-      if num_utterances > cfg.max_utterances:
+      if i > cfg.max_books:
         break
 
-      path = os.path.join(directory, lang, 'books', filename)
+      path = os.path.join(directory, lang, filename)
       paragraph_list = ['']
       delimiter = '_'
       num_words = 0
@@ -194,3 +197,6 @@ def extract(cfg, directory=os.path.join('data', 'filtered')):
     with open(os.path.join(path, 'statistics.txt'), 'w') as f:
       for key, value in file_stats.items():
         f.write(key + ';' + str(value[0]) + ';' + str(value[1]) + '\n')
+
+  # Continue with next step in pipeline.
+  post_filter(cfg, directory)
