@@ -1,7 +1,7 @@
 from pipeline.download import download
-from pipeline.filter import pre_filter
+from pipeline.pre_filter import pre_filter
 from pipeline.dialog_extractor import extract
-from pipeline.filter import post_filter
+from pipeline.post_filter import post_filter
 from pipeline.create_dataset import create
 
 
@@ -32,7 +32,7 @@ class Pipeline:
         print('Is the pre-filtering of old books done? (y/n)')
         inp = input()
         if inp == 'n':
-          directory = self.directory
+          directory = self.directory()
           if len(directory) > 1:
             pre_filter(self.config, directory)
           else:
@@ -56,6 +56,8 @@ class Pipeline:
               else:
                 post_filter(self.config)
             else:
-              create(self.config)
-
-          
+              directory = self.directory()
+              if len(directory) > 1:
+                create(self.config, directory)
+              else:
+                create(self.config)

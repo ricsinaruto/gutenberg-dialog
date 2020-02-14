@@ -1,6 +1,6 @@
 import os
 
-from pipeline.filter import post_filter
+from pipeline.post_filter import post_filter
 
 
 # globals
@@ -91,12 +91,13 @@ def extract(cfg, directory=os.path.join('data', 'filtered')):
     num_utterances = 0
 
     # Go through all books.
-    for i, filename in enumerate(os.listdir(os.path.join(directory, lang))):
+    for i, filename in enumerate(
+        os.listdir(os.path.join(directory, lang, 'books'))):
       # Limiting the size of the dataset.
       if i > cfg.max_books:
         break
 
-      path = os.path.join(directory, lang, filename)
+      path = os.path.join(directory, lang, 'books', filename)
       paragraph_list = ['']
       delimiter = '_'
       num_words = 0

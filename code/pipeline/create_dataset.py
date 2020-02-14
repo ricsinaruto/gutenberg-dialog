@@ -1,56 +1,53 @@
-import re
-import unicodedata
-import nltk
-from collections import Counter
-import random
-
-from config import Config
+import os
 
 
+def create(cfg, directory=os.path.join('data', 'filtered')):
+  for lang in cfg.languages:
+    print('Creating dataset for ' + lang + ' language.')
+    path = os.path.join(directory, lang)
+    train = open(os.path.join(path, 'train.txt'), 'w', encoding='utf-8')
+    dev = open(os.path.join(path, 'dev.txt'), 'w', encoding='utf-8')
+    test = open(os.path.join(path, 'test.txt'), 'w', encoding='utf-8')
 
-
-def create(dialogs, filename, indices):
-  train = open('train' + filename + '.txt', 'w', encoding='utf-8')
-  dev = open('dev' + filename + '.txt', 'w', encoding='utf-8')
-  test = open('test' + filename + '.txt', 'w', encoding='utf-8')
-
-
-  with open(split + 'dialogs_clean.txt', encoding='utf-8') as f:
-    dialogs = [[]]
-    for line in f:
-      if line == '\n':
-        dialogs.append([])
-
-      else:
-        dialogs[-1].append(line.strip('\n'))
-
-  split_counter = 0
-  for i in indices:
-    split_counter += 1
-    if split_counter <= 90:
-      train.write('\n'.join(dialogs[i]))
-      train.write('\n\n')
-    elif split_counter <= 95:
-      dev.write('\n'.join(dialogs[i]))
-      dev.write('\n\n')
-    elif split_counter <= 100:
-      test.write('\n'.join(dialogs[i]))
-      test.write('\n\n')
+    if cfg.clean_dialogs:
+      dialogs_text = open(os.path.join(path, 'dialogs_clean.txt'), encoding='utf-8')
     else:
-      split_counter = 0
+      dialogs_text = open(os.path.join(path, 'dialogs.txt'), encoding='utf-8')
 
-  train.close()
-  dev.close()
-  test.close()
+    with open(os.path.join(path, 'indices.txt'), encoding='utf-8') as f:
+      indices = [int(line.strip('\n')) for line in f]
 
+    # Read trian, dev, test indices
+    with open(os.path.join('code', 'utils', 'dev_indices.txt')) as f:
+      dev_indices = [int(line.strip('\n')) for line in f]
+    with open(os.path.join('code', 'utils', 'test_indices.txt')) as f:
+      test_indices = [int(line.strip('\n')) for line in f]
 
+    dialogs = [[]]
+    # Go through dialogs and filter them.
+    for line in dialogs_text:
+      if line == '\n':
+          dialogs.append([])
+      else:
+          dialogs[-1].append(line.strip('\n'))
 
+    # Filter based on saved indices, and split into final dataset.
+    for i in indices:
+      d = dialogs[i]
+      book = int(d[0].split('.txt: ')[0])
+      dialog = [utt.split('.txt: ')[1] for utt in d]
 
-def main():
-  #clean_dialogs()
-  build_vocab()
-  filter_dialogs()
+      if book in test_indices:
+        test.write('\n'.join(dialog))
+        test.write('\n\n')
+      elif book in dev_indices:
+        dev.write('\n'.join(dialog))
+        dev.write('\n\n')
+      else:
+        train.write('\n'.join(dialog))
+        train.write('\n\n')
 
-
-if __name__ == "__main__":
-  main()
+    train.close()
+    dev.close()
+    test.close()
+    dialogs_text.close()

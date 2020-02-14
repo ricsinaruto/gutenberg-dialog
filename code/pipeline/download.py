@@ -3,7 +3,7 @@ from gutenberg.cleanup import strip_headers
 from gutenberg.query import get_metadata
 import os
 
-from pipeline.filter import pre_filter
+from pipeline.pre_filter import pre_filter
 
 
 def download_(cfg, directory=os.path.join('data', 'raw')):
@@ -59,7 +59,11 @@ def download(cfg, directory=os.path.join('data', 'raw')):
     try:
       cache.populate()
     except:
-      cache.delete()
+      print('It looks like you already have a metadata cache, ' +
+            'do you want to delete it? (y/n)')
+      inp = input()
+      if inp == 'y':
+        cache.delete()
       cache.populate()
 
     download_(cfg, directory)
