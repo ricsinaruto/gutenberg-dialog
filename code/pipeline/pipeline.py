@@ -1,4 +1,4 @@
-from pipeline.download import download
+#from pipeline.download import download
 from pipeline.pre_filter import pre_filter
 from pipeline.dialog_extractor import extract
 from pipeline.post_filter import post_filter
@@ -20,14 +20,15 @@ class Pipeline:
     if self.auto:
       print('You have selected the auto mode, the program will ' +
             'automatically run through the steps and build the dataset.')
-      download(self.config)
+      #download(self.config)
     else:
       print('You have selected the pipeline mode, the program will now step ' +
             'you through building the dataset.')
       print('Have you downloaded the data? (y/n)')
       inp = input()
       if inp == 'n':
-        download(self.config)
+        pass
+        #download(self.config)
       else:
         print('Is the pre-filtering of old books done? (y/n)')
         inp = input()
