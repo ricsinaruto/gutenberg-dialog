@@ -90,6 +90,8 @@ def extract(cfg, directory=os.path.join('data', 'filtered')):
     dialogs = []
     num_utterances = 0
 
+    delimiter_filter = open(os.path.join(directory, lang, 'delim.txt'), 'w')
+
     # Go through all books.
     for i, filename in enumerate(
         os.listdir(os.path.join(directory, lang, 'books'))):
@@ -150,13 +152,13 @@ def extract(cfg, directory=os.path.join('data', 'filtered')):
           num_utterances += process_file(
             cfg, dialogs, paragraph_list, filename, delimiter)
       else:
-        pass
-        #print(filename)
+        delimiter_filter.write(filename + '\n')
 
       # Check whether there are enough dialogs in this file.
       if (len(dialogs) - len(old_dialogs)) / num_words * 10000 < \
           cfg.min_delimiters / 10:
         dialogs = list(old_dialogs)
+        delimiter_filter.write(filename)
 
     lengths = []
     dialog_lengths = []
@@ -198,6 +200,8 @@ def extract(cfg, directory=os.path.join('data', 'filtered')):
     with open(os.path.join(path, 'statistics.txt'), 'w') as f:
       for key, value in file_stats.items():
         f.write(key + ';' + str(value[0]) + ';' + str(value[1]) + '\n')
+
+    delimiter_filter.close()
 
   # Continue with next step in pipeline.
   post_filter(cfg, directory)

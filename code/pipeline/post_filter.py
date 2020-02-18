@@ -24,13 +24,14 @@ def clean_dialogs(cfg, directory):
         line = unicodedata.normalize('NFKD', line)
 
         # Keep some special tokens.
-        line = re.sub('[^a-z .,-:?!"\'0-9]', '', line)
+        #line = re.sub('[^a-z .,-:?!"\'0-9]', '', line)
+        line = re.sub('[^a-z .?!"\'0-9]', '', line)
         line = re.sub('[.]', ' . ', line)
         line = re.sub('[?]', ' ? ', line)
         line = re.sub('[!]', ' ! ', line)
-        line = re.sub('[-]', ' - ', line)
-        line = re.sub('["]', ' " ', line)
-        line = re.sub('[:]', ' : ', line)
+        #line = re.sub('[-]', ' - ', line)
+        #line = re.sub('["]', ' " ', line)
+        #line = re.sub('[:]', ' : ', line)
 
         words = nltk.word_tokenize(line)
         line = ' '.join(words)

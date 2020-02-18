@@ -39,6 +39,10 @@ def pre_filter(cfg, directory=os.path.join('data', 'raw')):
     print('Filtering old books based on vocabulary for ' + lang + ' language.')
     path = os.path.join(directory, lang)
     out_path = os.path.join(directory, '..', 'filtered', lang)
+
+    # Open a file to write filtered book numbers.
+    filtered_books = open(os.path.join(out_path, 'filtered.txt'), 'w')
+
     if not os.path.exists(os.path.join(out_path, 'book_vocab.txt')):
       build_vocab(path, out_path)
 
@@ -79,7 +83,9 @@ def pre_filter(cfg, directory=os.path.join('data', 'raw')):
       if kl_div < cfg.kl_threshold or total_words < cfg.size_threshold:
         shutil.copy(file_path, os.path.join(out_path, 'books', filename))
       else:
-        print(filename)
+        filtered_books.write(filename + '\n')
+
+    filtered_books.close()
 
   # Continue with the next step in pipeline.
   extract(cfg, os.path.join(directory, '..', 'filtered'))

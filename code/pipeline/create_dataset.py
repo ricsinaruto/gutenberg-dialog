@@ -27,9 +27,9 @@ def create(cfg, directory=os.path.join('data', 'filtered')):
     # Go through dialogs and filter them.
     for line in dialogs_text:
       if line == '\n':
-          dialogs.append([])
+        dialogs.append([])
       else:
-          dialogs[-1].append(line.strip('\n'))
+        dialogs[-1].append(line.strip('\n'))
 
     # Filter based on saved indices, and split into final dataset.
     for i in indices:
