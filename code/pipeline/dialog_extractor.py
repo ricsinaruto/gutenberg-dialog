@@ -151,14 +151,15 @@ def extract(cfg, directory=os.path.join('data', 'filtered')):
         else:
           num_utterances += process_file(
             cfg, dialogs, paragraph_list, filename, delimiter)
+
+        # Check whether there are enough dialogs in this file.
+        if (len(dialogs) - len(old_dialogs)) / num_words * 10000 < \
+          cfg.min_delimiters / 10:
+          dialogs = list(old_dialogs)
+          delimiter_filter.write(filename + '\n')
+
       else:
         delimiter_filter.write(filename + '\n')
-
-      # Check whether there are enough dialogs in this file.
-      if (len(dialogs) - len(old_dialogs)) / num_words * 10000 < \
-          cfg.min_delimiters / 10:
-        dialogs = list(old_dialogs)
-        delimiter_filter.write(filename)
 
     lengths = []
     dialog_lengths = []
