@@ -2,11 +2,6 @@ from collections import Counter
 import os
 import shutil
 import math
-import numpy as np
-import re
-import unicodedata
-import nltk
-from matplotlib import pyplot as plt
 
 from pipeline.dialog_extractor import extract
 
