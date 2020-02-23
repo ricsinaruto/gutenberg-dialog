@@ -53,7 +53,8 @@ def build_vocab_dialogs(cfg, directory):
   path = os.path.join(directory, 'dialogs_clean.txt')
   with open(path, encoding='utf-8') as f:
     for i, line in enumerate(f):
-      vocab.update(line.strip('\n').split('.txt: ')[1].split())
+      if line != '\n':
+        vocab.update(line.strip('\n').split('.txt: ')[1].split())
 
   path = os.path.join(directory, 'dialogs_vocab.txt')
   with open(path, 'w', encoding='utf-8') as f:
