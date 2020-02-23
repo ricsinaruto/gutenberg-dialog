@@ -27,7 +27,7 @@ class Pipeline:
       print('Have you downloaded the data? (y/n)')
       inp = input()
       if inp == 'n':
-        pass
+        #pass
         download(self.config)
       else:
         print('Is the pre-filtering of old books done? (y/n)')
