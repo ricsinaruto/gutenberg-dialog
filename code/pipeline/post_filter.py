@@ -53,7 +53,7 @@ def build_vocab_dialogs(cfg, directory):
   path = os.path.join(directory, 'dialogs_clean.txt')
   with open(path, encoding='utf-8') as f:
     for i, line in enumerate(f):
-      vocab.update(line.strip('\n').split())
+      vocab.update(line.strip('\n').split('.txt: ')[1].split())
 
   path = os.path.join(directory, 'dialogs_vocab.txt')
   with open(path, 'w', encoding='utf-8') as f:
@@ -86,7 +86,7 @@ def post_filter(cfg, directory=os.path.join('data', 'filtered')):
           dialogs.append([])
 
         else:
-          dialogs[-1].append(line.strip('\n'))
+          dialogs[-1].append(line.strip('\n').split('.txt: ')[1])
 
     indices = []
     for i, d in enumerate(dialogs):

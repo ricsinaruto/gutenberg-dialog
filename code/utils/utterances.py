@@ -1,5 +1,5 @@
 for split in ['train', 'dev', 'test']:
-  with open(split + 'dialogs_clean.txt', encoding='utf-8') as f:
+  with open(split + '.txt', encoding='utf-8') as f:
     dialogs = [[]]
     for line in f:
       if line == '\n':
