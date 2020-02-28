@@ -9,4 +9,4 @@ class Config:
   vocab_threshold = 0.2  # (0.2)
   auto = False  # if False, run pipeline with questions
   clean_dialogs = True  # if True, run preprocessing on dialogs
-  languages = ['en']
+  languages = ['fr', 'it']

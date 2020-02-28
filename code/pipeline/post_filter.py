@@ -8,7 +8,7 @@ from pipeline.create_dataset import create
 
 
 # Create a cleaned version of dialogs.
-def clean_dialogs(cfg, directory):
+def clean_dialogs_en(cfg, directory):
   text = []
   path = os.path.join(directory, 'dialogs.txt')
   with open(path, encoding='utf-8') as f:
@@ -46,6 +46,34 @@ def clean_dialogs(cfg, directory):
     f.write('\n'.join(text))
 
 
+def clean_dialogs_hu(cfg, directory):
+  text = []
+  path = os.path.join(directory, 'dialogs.txt')
+  with open(path, encoding='utf-8') as f:
+    for i, line in enumerate(f):
+      if line != '\n':
+        [book, line] = line.split('.txt:')
+        line = line.strip('\n').lower()
+        line = re.sub(' \' ', '\'', line)
+        line = unicodedata.normalize('NFKD', line)
+
+        words = nltk.word_tokenize(line)
+        line = ' '.join(words)
+        if len(words) == 0:
+          # Need this, so there are no empty lines.
+          line = '<PLACEHOLDER>'
+        text.append(book + '.txt: ' + line)
+      else:
+        text.append('')
+
+      if i % 100000 == 0:
+        print('Cleaned ' + str(i) + ' lines.')
+
+  path = os.path.join(directory, 'dialogs_clean.txt')
+  with open(path, 'w', encoding='utf-8') as f:
+    f.write('\n'.join(text))
+
+
 # Build vocab based on cleaned dialogs.
 def build_vocab_dialogs(cfg, directory):
   vocab = Counter()
@@ -65,10 +93,14 @@ def build_vocab_dialogs(cfg, directory):
 
 
 def post_filter(cfg, directory=os.path.join('data', 'filtered')):
+  lang_func = {
+    'en': clean_dialogs_en, 'hu': clean_dialogs_hu, 'fr': clean_dialogs_hu,
+    'it': clean_dialogs_hu}
+
   for lang in cfg.languages:
     print('Filtering dialogs based on vocabulary for ' + lang + ' language.')
     path = os.path.join(directory, lang)
-    clean_dialogs(cfg, path)
+    lang_func[lang](cfg, path)
     vocab = build_vocab_dialogs(cfg, path)
 
     # Fast replacement of OOV words
