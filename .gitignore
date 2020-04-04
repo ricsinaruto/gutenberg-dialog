@@ -3,10 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-data_tf/
-texts/
 data/
-*.txt
+data_prev/
 
 # C extensions
 *.so
