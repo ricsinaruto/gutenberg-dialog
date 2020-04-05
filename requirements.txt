@@ -1,0 +1,4 @@
+gutenberg
+nltk
+requests
+clint

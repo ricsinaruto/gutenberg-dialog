@@ -42,7 +42,7 @@ def main():
                       action='store_false')
   parser.add_argument('-v', '--vocab_threshold',
                       default=config.vocab_threshold,
-                      help='Ratio of max <unk> tokens allowred in a dialog ' +
+                      help='Ratio of max <unk> tokens allowed in a dialog ' +
                       '(default: %(default)s)',
                       metavar='', type=int)
 
