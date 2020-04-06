@@ -23,10 +23,7 @@ def process_file(cfg, dialogs, paragraph_list, filename, delimiter):
           if chars_since_dialog > cfg.dialog_gap:
             dialogs.append([])
 
-          if delimiter == '--':
-            dialogs[-1].append(filename + ':  ' + ' '.join(p[2:].split()))
-          else:
-            dialogs[-1].append(filename + ':  ' + ' '.join(p[1:].split()))
+          dialogs[-1].append(filename + ':  ' + ' '.join(p[len(delimiter):].split()))
 
           chars_since_dialog = 0
         elif dialogs:
