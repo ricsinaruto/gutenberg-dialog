@@ -8,6 +8,7 @@ from pipeline.create_dataset import create
 
 def clean_dialogs(cfg, directory, lang):
   lang_module = importlib.import_module('languages.' + lang)
+  lang_class = lang_module.LANG(cfg)
 
   text = []
   path = os.path.join(directory, 'dialogs.txt')
@@ -17,7 +18,7 @@ def clean_dialogs(cfg, directory, lang):
         [book, line] = line.split('.txt:')
         line = line.strip('\n').lower()
 
-        line = lang_module.clean_line(line)
+        line = lang_class.clean_line(line)
 
         words = nltk.word_tokenize(line)
         line = ' '.join(words)

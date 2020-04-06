@@ -1,13 +1,6 @@
-from languages import hu
+from languages.hu import LANG as HU
 
 
-def delimiters():
-  return {'--': hu.delimiters()['–']}
-
-
-def process_file(cfg, dialogs, paragraph_list, filename, delimiter):
-  hu.process_file(cfg, dialogs, paragraph_list, filename, delimiter)
-
-
-def clean_line(line):
-  return hu.clean_line(line)
+class LANG(HU):
+  def delimiters(self):
+    return {'--': super().delimiters()['–']}

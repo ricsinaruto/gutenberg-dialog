@@ -8,10 +8,10 @@ from pipeline.post_filter import post_filter
 def extract_(cfg, directory, lang):
   # Import relevant file.
   lang_module = importlib.import_module('languages.' + lang)
-  delimiters = lang_module.delimiters()
+  lang_class = lang_module.LANG(cfg)
+  delimiters = lang_class.delimiters()
 
   file_stats = {}
-  dialogs = []
   delimiter_filter = open(os.path.join(directory, lang, 'delim.txt'), 'w')
 
   # Go through all books.
@@ -41,23 +41,27 @@ def extract_(cfg, directory, lang):
 
     num_words = sum([len(p.split()) for p in paragraph_list])
     # Store the dialogs before processing.
-    old_dialogs = list(dialogs)
+    old_dialogs = list(lang_class.dialogs)
     # Need a min. number of delimiters for further processing.
     if num_chars / num_words * 10000 > cfg.min_delimiters:
       file_stats[filename] = [num_words, 0]
-      lang_module.process_file(cfg, dialogs, paragraph_list, filename, delim)
+      lang_class.process_file(paragraph_list, delim)
+      diff = len(lang_class.dialogs) - len(old_dialogs)
+
+      # Add filename to utterances.
+      for i, d in enumerate(lang_class.dialogs[-diff:]):
+        lang_class.dialogs[-diff + i] = [filename + ':  ' + u for u in d]
 
       # Check whether there are enough dialogs in this file.
-      if (len(dialogs) - len(old_dialogs)) / num_words * 10000 < \
-        cfg.min_delimiters / 10:
-        dialogs = list(old_dialogs)
+      if diff / num_words * 10000 < cfg.min_delimiters / 10:
+        lang_class.dialogs = list(old_dialogs)
         delimiter_filter.write(filename + '\n')
 
     else:
       delimiter_filter.write(filename + '\n')
 
   delimiter_filter.close()
-  return dialogs, file_stats
+  return lang_class.dialogs, file_stats
 
 
 def extract(cfg, directory=os.path.join('data', 'filtered')):
