@@ -9,10 +9,11 @@ python setup.py
 ```
 
 ## Usage
-The main file should be called from the root of the repo.
+The main file should be called from the root of the repo. The command below will automatically run the dataset building pipeline for the comma-separated languages given as argument.
 ```
-python code/main.py -h
+python code/main.py -l=en,fr,it,hu -a
 ```
+With the -h flag you can print out all the settable parameters:
 <a><img src="https://github.com/ricsinaruto/gutenberg-dialog/blob/master/docs/help.png" align="top" height="400" ></a>
 
 ## Extend to other languages
