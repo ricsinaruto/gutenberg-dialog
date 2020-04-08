@@ -15,6 +15,24 @@ python code/main.py -l=en,fr,it,hu -a
 All settable arguments can bee seen below:
 <a><img src="https://github.com/ricsinaruto/gutenberg-dialog/blob/master/docs/help.png" align="top" height="400" ></a>
 
+### Pipeline steps
+The *-a* flag controls whether to run in automatic mode or step-by-step mode. In step mode there are 5 main steps which the program cycles through, asking the user whether specific steps are done and can be skipped.
+
+#### 1. Download
+The first step is to download the books. Once they are downloaded this step can be skipped the next time.
+
+#### 2. Pre-filtering
+Pre-filtering removes some old books. Once this is done it can be skipped as well, since the books are saved to disk.
+
+#### 3. Dialog extraction
+In this step dialogs are extracted from books. When extending the dataset to new languages (see section below), this is the step that can be modified, thus previous steps can be skipped once done. The dialogs in this step are also saved to disk, so if we are happy with the quality of dialogs this step can be skipped as well.
+
+#### 4. Post-filtering
+A final filtering step removing some dialogs based on vocabulary.
+
+#### 5. Dataset creation
+Putting together the final dataset. Since this is the final step if all previous steps are skipped this has to run.
+
 ## Extend to other languages
 The code can be easily extended to process other languages. A file named \<language code\>.py has to be created in the languages folder. Here a class should be defined named LANG, with [LANG_base](https://github.com/ricsinaruto/gutenberg-dialog/blob/master/code/languages/lang.py) as parent. With *self.cfg* config parameters can be accessed. Inside this class the 3 functions below have to be defined. Please see [hu.py](https://github.com/ricsinaruto/gutenberg-dialog/blob/master/code/languages/hu.py) for an example.
 
