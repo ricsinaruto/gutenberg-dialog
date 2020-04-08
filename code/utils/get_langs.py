@@ -12,7 +12,7 @@ for i in range(1, 65000):
     # Get the rights
     try:
         r = next(iter(get_metadata('rights', i)))
-    except:
+    except StopIteration:
         r = 'EMPTY'
 
     if 'Copyrighted.' in r or r == 'EMPTY' or r == 'None':
