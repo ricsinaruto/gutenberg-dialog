@@ -1,5 +1,5 @@
-from languages.fr import LANG as FR
+from languages.fr import Fr
 
 
-class LANG(FR):
+class It(Fr):
     pass

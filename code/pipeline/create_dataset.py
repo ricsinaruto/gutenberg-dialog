@@ -1,7 +1,8 @@
 import os
 
 
-def create(cfg, directory=os.path.join('data', 'filtered')):
+def create(cfg):
+    directory = cfg.directory
     for lang in cfg.languages:
         print('Creating dataset for ' + lang + ' language.')
         path = os.path.join(directory, lang)

@@ -3,12 +3,10 @@ import os
 import nltk
 import importlib
 
-from pipeline.create_dataset import create
-
 
 def clean_dialogs(cfg, directory, lang):
     lang_module = importlib.import_module('languages.' + lang)
-    lang_class = lang_module.LANG(cfg)
+    lang_class = getattr(lang_module, lang.capitalize())(cfg)
 
     text = []
     path = os.path.join(directory, 'dialogs.txt')
@@ -55,7 +53,8 @@ def build_vocab_dialogs(cfg, directory):
     return vocab
 
 
-def post_filter(cfg, directory=os.path.join('data', 'filtered')):
+def post_filter(cfg):
+    directory = cfg.directory
     for lang in cfg.languages:
         print('Filtering dialogs based on vocab for ' + lang + ' language.')
         path = os.path.join(directory, lang)
@@ -98,5 +97,3 @@ def post_filter(cfg, directory=os.path.join('data', 'filtered')):
         indices_path = os.path.join(path, 'indices.txt')
         with open(indices_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(indices))
-
-    create(cfg, directory)

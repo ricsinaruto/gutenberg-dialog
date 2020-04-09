@@ -1,6 +1,6 @@
-from languages.hu import LANG as HU
+from languages.hu import Hu
 
 
-class LANG(HU):
+class Fr(Hu):
     def delimiters(self):
         return {'--': super().delimiters()['–']}

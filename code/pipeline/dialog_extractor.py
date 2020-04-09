@@ -2,21 +2,25 @@ import os
 import importlib
 from collections import Counter
 
-from pipeline.post_filter import post_filter
-
 
 def extract_(cfg, directory, lang):
     # Import relevant file.
     lang_module = importlib.import_module('languages.' + lang)
-    lang_class = lang_module.LANG(cfg)
+    lang_class = getattr(lang_module, lang.capitalize())(cfg)
     delimiters = lang_class.delimiters()
 
     file_stats = {}
     delimiter_filter = open(os.path.join(directory, lang, 'delim.txt'), 'w')
 
+    # Read the filtered book list.
+    fnames = []
+    path = os.path.join(directory, lang, 'author_and_title.txt')
+    with open(path, encoding='utf-8') as f:
+        for line in f:
+            fnames.append(line.split(' :: ')[2].strip('\n') + '.txt')
+
     # Go through all books.
-    for i, fname in enumerate(
-            os.listdir(os.path.join(directory, lang, 'books'))):
+    for i, fname in enumerate(fnames):
         # Limiting the size of the dataset.
         if i > cfg.max_books:
             break
@@ -64,7 +68,8 @@ def extract_(cfg, directory, lang):
     return lang_class.dialogs, file_stats
 
 
-def extract(cfg, directory=os.path.join('data', 'filtered')):
+def extract(cfg):
+    directory = cfg.directory
     for lang in cfg.languages:
         print('Extracting dialogs for ' + lang + ' language.')
 
@@ -112,6 +117,3 @@ def extract(cfg, directory=os.path.join('data', 'filtered')):
         with open(os.path.join(path, 'statistics.txt'), 'w') as f:
             for key, value in file_stats.items():
                 f.write(key + ';' + str(value[0]) + ';' + str(value[1]) + '\n')
-
-    # Continue with next step in pipeline.
-    post_filter(cfg, directory)

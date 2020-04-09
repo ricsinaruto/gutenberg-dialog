@@ -1,9 +1,9 @@
 import re
 import unicodedata
-from languages.lang import LANG_base
+from languages.lang import Lang
 
 
-class LANG(LANG_base):
+class En(Lang):
     def delimiters(self):
         def d1(delimiter, line):
             return line.count(delimiter)

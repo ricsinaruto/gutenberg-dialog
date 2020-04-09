@@ -1,4 +1,4 @@
-class LANG_base:
+class Lang:
     def __init__(self, cfg):
         self.cfg = cfg
         self.dialogs = []

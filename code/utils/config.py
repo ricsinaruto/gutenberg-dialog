@@ -1,3 +1,6 @@
+import os
+
+
 # These can also be set as arguments via the command line.
 class Config:
     dialog_gap = 150
@@ -7,6 +10,11 @@ class Config:
     kl_threshold = 2  # (2)
     size_threshold = 20000  # minimum number of words in a book for filtering
     vocab_threshold = 0.2  # (0.2)
-    auto = False  # if True, run pipeline with questions
-    clean_dialogs = True  # if True, run preprocessing on dialogs
-    languages = ['hu', 'en']
+    clean_dialogs = False  # if True, run preprocessing on dialogs
+    languages = ['hu', 'en', 'fr', 'it']
+    download = False
+    pre_filter = False
+    extract = False
+    post_filter = False
+    create_dataset = False
+    directory = os.path.join('data', 'filtered')

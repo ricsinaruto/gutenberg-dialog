@@ -1,3 +1,5 @@
+import os
+
 from pipeline.download import download
 from pipeline.pre_filter import pre_filter
 from pipeline.dialog_extractor import extract
@@ -8,60 +10,40 @@ from pipeline.create_dataset import create
 class Pipeline:
     def __init__(self, config):
         self.config = config
-        self.auto = config.auto
 
         # Convert language codes to list.
         if isinstance(self.config.languages, str):
             self.config.languages = self.config.languages.split(',')
 
-    def directory(self):
-        print('Please provide the directory where the separate language ' +
-              'folders are or press enter to use default location ' +
-              '(from the repo\'s root).')
-        return input()
-
     def run(self):
-        if self.auto:
-            print('You have selected the auto mode, the program will ' +
-                  'automatically run through the steps and build the dataset.')
+        # Pre-set directory.
+        if (self.config.download or self.config.pre_filter) and\
+                self.config.directory == os.path.join('data', 'filtered'):
+            self.config.directory = os.path.join('data', 'raw')
+
+        start = False
+        if self.config.download:
+            start = True
             download(self.config)
-        else:
-            print('You have selected the pipeline mode, the program ' +
-                  'will now step you through building the dataset.')
-            print('Have you downloaded the data? (y/n)')
-            inp = input()
-            if inp == 'n':
-                download(self.config)
-            else:
-                print('Is the pre-filtering of old books done? (y/n)')
-                inp = input()
-                if inp == 'n':
-                    directory = self.directory()
-                    if len(directory) > 1:
-                        pre_filter(self.config, directory)
-                    else:
-                        pre_filter(self.config)
-                else:
-                    print('Are dialogs extracted from books? (y/n)')
-                    inp = input()
-                    if inp == 'n':
-                        directory = self.directory()
-                        if len(directory) > 1:
-                            extract(self.config, directory)
-                        else:
-                            extract(self.config)
-                    else:
-                        print('Is post-filtering on the dialogs done? (y/n)')
-                        inp = input()
-                        if inp == 'n':
-                            directory = self.directory()
-                            if len(directory) > 1:
-                                post_filter(self.config, directory)
-                            else:
-                                post_filter(self.config)
-                        else:
-                            directory = self.directory()
-                            if len(directory) > 1:
-                                create(self.config, directory)
-                            else:
-                                create(self.config)
+        if self.config.pre_filter:
+            start = True
+            pre_filter(self.config)
+        if self.config.extract:
+            start = True
+            extract(self.config)
+        if self.config.post_filter:
+            start = True
+            post_filter(self.config)
+        if self.config.create_dataset:
+            start = True
+            create(self.config)
+
+        if not start:
+            if self.config.directory == os.path.join('data', 'filtered'):
+                self.config.directory = os.path.join('data', 'raw')
+            print('No steps selected, running entire pipeline.')
+            download(self.config)
+            pre_filter(self.config)
+            extract(self.config)
+            post_filter(self.config)
+            create(self.config)
