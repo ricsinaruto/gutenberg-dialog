@@ -40,4 +40,12 @@ class Hu(Lang):
     def clean_line(self, line):
         line = re.sub(' \' ', '\'', line)
         line = unicodedata.normalize('NFKD', line)
+        line = re.sub('[.]', ' . ', line)
+        line = re.sub('[?]', ' ? ', line)
+        line = re.sub('[!]', ' ! ', line)
+        line = re.sub('[-]', ' - ', line)
+        line = re.sub('["]', ' " ', line)
+        line = re.sub('[:]', ' : ', line)
+        line = re.sub('[,]', ' , ', line)
+
         return line
