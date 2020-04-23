@@ -14,8 +14,8 @@ class Config:
     clean_dialogs = True  # if True, run preprocessing on dialogs
     languages = ['pt']
     download = False
-    pre_filter = True
-    extract = True
-    post_filter = True
-    create_dataset = True
+    pre_filter = False
+    extract = False
+    post_filter = False
+    create_dataset = False
     directory = os.path.join('data', 'filtered')
