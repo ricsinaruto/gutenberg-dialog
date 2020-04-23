@@ -30,14 +30,6 @@ def build_vocab(path, out_path):
 def pre_filter(cfg):
     directory = cfg.directory
 
-    metadata = {}
-    # Read metadata first for author and title.
-    path = os.path.join('code', 'utils', 'metadata.txt')
-    with open(path, encoding='utf-8') as f:
-        for line in f:
-            [index, lang, r, author, title] = line.split(':')
-            metadata[index] = ' :: '.join([author, title.strip('\n')])
-
     for lang in cfg.languages:
         print('Filtering old books based on vocab for ' + lang + ' language.')
         path = os.path.join(directory, lang)
@@ -62,7 +54,6 @@ def pre_filter(cfg):
         total_words = sum([value for key, value in vocab.items()])
         total_distro = dict([(k, v / total_words) for k, v in vocab.items()])
 
-        fnames = []
         # Go through single books and calculate KL-divergence from total vocab.
         for i, fname in enumerate(os.listdir(path)):
             if i > cfg.max_books:
@@ -88,15 +79,8 @@ def pre_filter(cfg):
             # Let small books through because the distribution might be skewed.
             if kl_div < cfg.kl_threshold or num_words < cfg.size_threshold:
                 shutil.copy(file_path, os.path.join(out_path, 'books', fname))
-                fnames.append(fname.strip('.txt'))
             else:
                 filtered_books.write(fname + '\n')
-
-        path = os.path.join(out_path, 'author_and_title.txt')
-        if not os.path.exists(path):
-            with open(path, 'w', encoding='utf-8') as f:
-                meta_list = [metadata[name] + ' :: ' + name for name in fnames]
-                f.write('\n'.join(sorted(meta_list)))
 
         filtered_books.close()
 

@@ -21,6 +21,10 @@ def main():
                         default=config.min_delimiters,
                         help='Min delimiters / 10000 words needed in a book ' +
                         '(default: %(default)s)', metavar='', type=int)
+    parser.add_argument('-mdd', '--min_double_delim',
+                        default=config.min_double_delim,
+                        help='Double delimiter threshold (romance languages ' +
+                        '(default: %(default)s)', metavar='', type=int)
     parser.add_argument('-kl', '--kl_threshold', default=config.kl_threshold,
                         help='KL divergence threshold for filtering books ' +
                         '(default: %(default)s)', metavar='', type=int)
@@ -54,6 +58,9 @@ def main():
     parser.add_argument('-c', '--create_dataset',
                         default=config.create_dataset,
                         help='Whether to run create dataset step',
+                        action='store_true')
+    parser.add_argument('-a', '--run_all', default=config.run_all,
+                        help='Whether to run all steps',
                         action='store_true')
     parser.add_argument('-dir', '--directory', default=config.directory,
                         help='Directory where the language folders are',
