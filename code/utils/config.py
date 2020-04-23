@@ -10,9 +10,9 @@ class Config:
     kl_threshold = 2  # (2)
     size_threshold = 20000  # minimum number of words in a book for filtering
     vocab_threshold = 0.2  # (0.2)
-    min_double_delim = 50  # for latin languages
+    min_double_delim = 40  # for latin languages and hungarian
     clean_dialogs = False  # if True, run preprocessing on dialogs
-    languages = ['pt']
+    languages = ['hu']
     download = False
     pre_filter = False
     extract = False

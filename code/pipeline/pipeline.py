@@ -44,5 +44,5 @@ class Pipeline:
 
         if not (self.config.download or self.config.pre_filter or
                 self.config.extract or self.config.post_filter or
-                self.config.create_dataset):
+                self.config.create_dataset or self.config.run_all):
             print('No steps selected, please see help (-h) to specify them.')
