@@ -34,10 +34,12 @@ def create(cfg):
             else:
                 dialogs[-1].append(line.strip('\n'))
 
+        books = {}
         # Filter based on saved indices, and split into final dataset.
         for i in indices:
             d = dialogs[i]
             book = int(d[0].split('.txt: ')[0])
+            books[book] = 0
             dialog = [utt.split('.txt: ')[1] for utt in d]
 
             if book in test_indices:
@@ -54,3 +56,54 @@ def create(cfg):
         dev.close()
         test.close()
         dialogs_text.close()
+
+        metadata = {}
+        # Read metadata first for author and title.
+        in_path = os.path.join('code', 'utils', 'metadata.txt')
+        with open(in_path, encoding='utf-8') as f:
+            for line in f:
+                [index, lang, r, author, title] = line.split(':')
+                metadata[index] = ' :: '.join([author, title.strip('\n')])
+
+        path = os.path.join(path, 'author_and_title.txt')
+        if not os.path.exists(path):
+            with open(path, 'w', encoding='utf-8') as f:
+                meta_list = [metadata[str(i)] + ' :: ' + str(i) for i in books]
+                f.write('\n'.join(sorted(meta_list)))
+        else:
+            print('author_and_title.txt already exists in ' + lang + ' folder')
+            print('Please specify (choose a number) how to merge the ' +
+                  'current list with the new list:\n' +
+                  '  1. Keep current list\n' +
+                  '  2. Overwrite with new list\n' +
+                  '  3. Keep the union of the two lists\n' +
+                  '  4. Keep the intersection of the two lists')
+            choice = input()
+
+            if choice == '2':
+                with open(path, 'w', encoding='utf-8') as f:
+                    meta_list = [
+                        metadata[str(i)] + ' :: ' + str(i) for i in books]
+                    f.write('\n'.join(sorted(meta_list)))
+            if choice == '3':
+                old_list = []
+                with open(path, encoding='utf-8') as f:
+                    for line in f:
+                        old_list.append(line.strip('\n'))
+
+                with open(path, 'w', encoding='utf-8') as f:
+                    new_list = [
+                        metadata[str(i)] + ' :: ' + str(i) for i in books]
+                    new_list.extend(old_list)
+                    f.write('\n'.join(sorted(set(new_list))))
+            if choice == '4':
+                old_list = set()
+                with open(path, encoding='utf-8') as f:
+                    for line in f:
+                        old_list.add(line.strip('\n'))
+
+                with open(path, 'w', encoding='utf-8') as f:
+                    new_list = set(
+                        [metadata[str(i)] + ' :: ' + str(i) for i in books])
+                    meta_list = list(new_list.intersection(old_list))
+                    f.write('\n'.join(sorted(meta_list)))

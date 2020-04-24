@@ -1,7 +1,10 @@
-from languages.fr import Fr
+import re
+import unicodedata
+
+from languages.lang import Lang
 
 
-class It(Fr):
+class It(Lang):
     def delimiters(self):
         def d1(delimiter, line):
             return line.count(delimiter) * 2
@@ -39,3 +42,16 @@ class It(Fr):
         num_words = sum([len(p.split()) for p in paragraph_list])
         if count_doubles / num_words * 10000 > self.cfg.min_double_delim:
             self.dialogs.extend(dialogs)
+
+    def clean_line(self, line):
+        line = re.sub(' \' ', '\'', line)
+        line = unicodedata.normalize('NFKD', line)
+        line = re.sub('[.]', ' . ', line)
+        line = re.sub('[?]', ' ? ', line)
+        line = re.sub('[!]', ' ! ', line)
+        line = re.sub('[-]', ' - ', line)
+        line = re.sub('["]', ' " ', line)
+        line = re.sub('[:]', ' : ', line)
+        line = re.sub('[,]', ' , ', line)
+
+        return line

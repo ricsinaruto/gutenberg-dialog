@@ -17,33 +17,32 @@ class Pipeline:
 
     def run(self):
         # Pre-set directory.
-        if (self.config.download or self.config.pre_filter) and\
+        if (self.config.download or
+            self.config.pre_filter or
+            self.config.run_all) and\
                 self.config.directory == os.path.join('data', 'filtered'):
             self.config.directory = os.path.join('data', 'raw')
 
-        start = False
-        if self.config.download:
-            start = True
+        if self.config.run_all:
+            print('Running entire pipeline.')
             download(self.config)
-        if self.config.pre_filter:
-            start = True
             pre_filter(self.config)
-        if self.config.extract:
-            start = True
             extract(self.config)
-        if self.config.post_filter:
-            start = True
             post_filter(self.config)
-        if self.config.create_dataset:
-            start = True
             create(self.config)
+        else:
+            if self.config.download:
+                download(self.config)
+            if self.config.pre_filter:
+                pre_filter(self.config)
+            if self.config.extract:
+                extract(self.config)
+            if self.config.post_filter:
+                post_filter(self.config)
+            if self.config.create_dataset:
+                create(self.config)
 
-        if not start:
-            if self.config.directory == os.path.join('data', 'filtered'):
-                self.config.directory = os.path.join('data', 'raw')
-            print('No steps selected, running entire pipeline.')
-            download(self.config)
-            pre_filter(self.config)
-            extract(self.config)
-            post_filter(self.config)
-            create(self.config)
+        if not (self.config.download or self.config.pre_filter or
+                self.config.extract or self.config.post_filter or
+                self.config.create_dataset or self.config.run_all):
+            print('No steps selected, please see help (-h) to specify them.')

@@ -15,9 +15,13 @@ def extract_(cfg, directory, lang):
     # Read the filtered book list.
     fnames = []
     path = os.path.join(directory, lang, 'author_and_title.txt')
-    with open(path, encoding='utf-8') as f:
-        for line in f:
-            fnames.append(line.split(' :: ')[2].strip('\n') + '.txt')
+    if os.path.exists(path):
+        with open(path, encoding='utf-8') as f:
+            for line in f:
+                fnames.append(line.split(' :: ')[2].strip('\n') + '.txt')
+    else:
+        path = os.path.join(directory, lang, 'books')
+        fnames = [fname for fname in os.listdir(path)]
 
     # Go through all books.
     for i, fname in enumerate(fnames):

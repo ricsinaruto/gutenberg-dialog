@@ -16,7 +16,7 @@ class Es(It):
         line = re.sub('[:]', ' : ', line)
         line = re.sub('[,]', ' , ', line)
 
-        line = re.sub('¿', ' ¿ ', line)
-        line = re.sub('¡', ' ¡ ', line)
+        line = re.sub('[¿]', ' ¿ ', line)
+        line = re.sub('[¡]', ' ¡ ', line)
 
         return line
