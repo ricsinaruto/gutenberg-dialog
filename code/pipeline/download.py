@@ -13,8 +13,9 @@ def download(cfg):
         for line in f:
             [index, lang, r, author, title] = line.split(':')
 
+            r = int(r)
             i = int(index)
-            if i < cfg.max_books and int(r) == 1 and lang in cfg.languages:
+            if counter < cfg.max_books and r == 1 and lang in cfg.languages:
                 # Get the book.
                 try:
                     text = strip_headers(load_etext(i)).strip().encode('utf-8')
