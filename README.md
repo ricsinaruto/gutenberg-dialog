@@ -13,8 +13,8 @@ The main file should be called from the root of the repo. The command below runs
 ```
 python code/main.py -l=en,es,pt,it,hu -a
 ```
-All settable arguments can bee seen below:
-<a><img src="https://github.com/ricsinaruto/gutenberg-dialog/blob/master/docs/help.png" align="top" height="400" ></a>
+All settable arguments can bee seen below:  
+<a><img src="https://github.com/ricsinaruto/gutenberg-dialog/blob/master/docs/help.png" align="top" height="500" ></a>
 
 ### Pipeline steps
 The *-a* flag controls whether to run the whole pipeline automatically. If *-a* is omitted a subset of steps have to be specified using flags (see help above). Once a step is finished its output can be used in subsequent steps and it only has run again if parameters or code related to that step is changed. All steps run separately for each language.
