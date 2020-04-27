@@ -36,14 +36,15 @@ def pre_filter(cfg):
         print('Filtering old books based on vocab for ' + lang + ' language.')
         path = os.path.join(directory, lang)
         out_path = os.path.join(directory, '..', 'filtered', lang)
-        # Get manually removed books.
-        removed_books = utils.get_removed_books(out_path)
 
         if not os.path.exists(os.path.join(directory, '..', 'filtered')):
             os.mkdir(os.path.join(directory, '..', 'filtered'))
 
         if not os.path.exists(os.path.join(out_path, 'book_vocab.txt')):
             build_vocab(path, out_path)
+
+        # Get manually removed books.
+        removed_books = utils.get_removed_books(out_path)
 
         # Open a file to write filtered book numbers.
         filtered_books = open(os.path.join(out_path, 'filtered.txt'), 'w')
