@@ -1,6 +1,7 @@
 # gutenberg-dialog ([Download the English dataset](https://mega.nz/file/HcNGCKSQ#kL5PX6CecFfDtqRq0y_onbg-ozt_OmBQBdbXq8vcVag))
 Code for downloading and building your own version of the Gutenberg Dialog Dataset. Easily extendable with new languages.  
-https://arxiv.org/abs/2004.12752
+* Paper: https://arxiv.org/abs/2004.12752  
+* [Languages statistics](https://docs.google.com/spreadsheets/d/15v7lhZJusknd6UfnPfaHIriKvIlShFq2tqTsU7M82bI/edit?usp=sharing)
 
 ## Setup
 Run setup.py which installs required packages.
@@ -9,9 +10,9 @@ python setup.py
 ```
 
 ## Usage
-The main file should be called from the root of the repo. The command below runs the dataset building pipeline for the comma-separated languages given as argument. Currently only English, Spanish, Portuguese, Italian, and Hungarian are supported.
+The main file should be called from the root of the repo. The command below runs the dataset building pipeline for the comma-separated languages given as argument. Currently English, German, Spanish, Portuguese, Italian, and Hungarian are supported.
 ```
-python code/main.py -l=en,es,pt,it,hu -a
+python code/main.py -l=en,de,es,pt,it,hu -a
 ```
 All settable arguments can bee seen below:  
 <a><img src="https://github.com/ricsinaruto/gutenberg-dialog/blob/master/docs/help.png" align="top" height="500" ></a>
