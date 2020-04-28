@@ -1,6 +1,6 @@
 # gutenberg-dialog ([Download the English dataset](https://mega.nz/file/HcNGCKSQ#kL5PX6CecFfDtqRq0y_onbg-ozt_OmBQBdbXq8vcVag))
 Code for downloading and building your own version of the Gutenberg Dialog Dataset. Easily extendable with new languages.  
-
+https://arxiv.org/abs/2004.12752
 
 ## Setup
 Run setup.py which installs required packages.
