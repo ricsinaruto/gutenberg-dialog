@@ -10,9 +10,9 @@ python setup.py
 ```
 
 ## Usage
-The main file should be called from the root of the repo. The command below runs the dataset building pipeline for the comma-separated languages given as argument. Currently English, German, Spanish, Portuguese, Italian, and Hungarian are supported.
+The main file should be called from the root of the repo. The command below runs the dataset building pipeline for the comma-separated languages given as argument. Currently English, German, Dutch, Spanish, Portuguese, Italian, and Hungarian are supported.
 ```
-python code/main.py -l=en,de,es,pt,it,hu -a
+python code/main.py -l=en,de,nl,es,pt,it,hu -a
 ```
 All settable arguments can bee seen below:  
 <a><img src="https://github.com/ricsinaruto/gutenberg-dialog/blob/master/docs/help.png" align="top" height="500" ></a>
