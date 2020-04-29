@@ -46,9 +46,6 @@ def pre_filter(cfg):
         # Get manually removed books.
         removed_books = utils.get_removed_books(out_path)
 
-        # Open a file to write filtered book numbers.
-        filtered_books = open(os.path.join(out_path, 'filtered.txt'), 'w')
-
         vocab = Counter()
         book_vocab_path = os.path.join(out_path, 'book_vocab.txt')
         with open(book_vocab_path, encoding='utf-8') as f:
@@ -58,6 +55,7 @@ def pre_filter(cfg):
 
         total_words = sum([value for key, value in vocab.items()])
         total_distro = dict([(k, v / total_words) for k, v in vocab.items()])
+        filtered_books = []
 
         # Go through single books and calculate KL-divergence from total vocab.
         for i, fname in enumerate(os.listdir(path)):
@@ -87,9 +85,10 @@ def pre_filter(cfg):
                 if (kl_div < cfg.kl_threshold or n_words < cfg.size_threshold):
                     shutil.copy(file_p, os.path.join(out_path, 'books', fname))
                 else:
-                    filtered_books.write(fname + '\n')
+                    filtered_books.append(int(fname.strip('.txt')))
 
-        filtered_books.close()
+        with open(os.path.join(out_path, 'filtered.txt'), 'w') as f:
+            f.write('\n'.join(list(map(str, sorted(filtered_books)))))
 
     # Prepare directory for next step.
     cfg.directory = os.path.join(directory, '..', 'filtered')

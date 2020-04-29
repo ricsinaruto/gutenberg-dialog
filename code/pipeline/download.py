@@ -11,7 +11,7 @@ def download(cfg):
     with open(path, encoding='utf-8') as f:
         counter = 0
         for line in f:
-            [index, lang, r, author, title] = line.split(':')
+            [index, lang, r, author, title] = line.split('\t')
 
             r = int(r)
             i = int(index)

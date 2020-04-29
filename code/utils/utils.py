@@ -7,8 +7,8 @@ def get_removed_books(path):
     if os.path.exists(path):
         with open(path, encoding='utf-8') as f:
             for line in f:
-                if ('::') in line:
-                    fnames.append(line.split(' :: ')[2].strip('\n') + '.txt')
+                if '\t' in line:
+                    fnames.append(line.split('\t')[2].strip('\n') + '.txt')
     else:
         with open(path, 'w', encoding='utf-8') as f:
             f.write('Remove this text and paste lines from ' +

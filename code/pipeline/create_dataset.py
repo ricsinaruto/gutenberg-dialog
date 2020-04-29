@@ -67,10 +67,10 @@ def create(cfg):
         in_path = os.path.join('code', 'utils', 'metadata.txt')
         with open(in_path, encoding='utf-8') as f:
             for line in f:
-                [index, lang, r, author, title] = line.split(':')
-                metadata[index] = ' :: '.join([author, title.strip('\n')])
+                [index, lang, r, author, title] = line.split('\t')
+                metadata[index] = '\t'.join([author, title.strip('\n')])
 
         path = os.path.join(path, 'author_and_title.txt')
         with open(path, 'w', encoding='utf-8') as f:
-            meta_list = [metadata[str(i)] + ' :: ' + str(i) for i in books]
+            meta_list = [metadata[str(i)] + '\t' + str(i) for i in books]
             f.write('\n'.join(sorted(meta_list)))

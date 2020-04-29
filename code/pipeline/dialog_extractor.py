@@ -12,7 +12,7 @@ def extract_(cfg, directory, lang):
     delimiters = lang_class.delimiters()
 
     file_stats = {}
-    delimiter_filter = open(os.path.join(directory, lang, 'delim.txt'), 'w')
+    delimiter_filter = []
 
     # Get manually removed books.
     removed_books = utils.get_removed_books(os.path.join(directory, lang))
@@ -59,12 +59,14 @@ def extract_(cfg, directory, lang):
                 # Check whether there are enough dialogs in this file.
                 if diff / num_words * 10000 < cfg.min_delimiters / 10:
                     lang_class.dialogs = list(old_dialogs)
-                    delimiter_filter.write(fname + '\n')
+                    delimiter_filter.append(int(fname.strip('.txt')))
 
             else:
-                delimiter_filter.write(fname + '\n')
+                delimiter_filter.append(int(fname.strip('.txt')))
 
-    delimiter_filter.close()
+    with open(os.path.join(directory, lang, 'delim.txt'), 'w') as f:
+        f.write('\n'.join(list(map(str, sorted(delimiter_filter)))))
+
     return lang_class.dialogs, file_stats
 
 
@@ -116,4 +118,4 @@ def extract(cfg):
         # Save. statistics to file.
         with open(os.path.join(path, 'statistics.txt'), 'w') as f:
             for key, value in file_stats.items():
-                f.write(key + ';' + str(value[0]) + ';' + str(value[1]) + '\n')
+                f.write(key + '\t' + str(value[0]) + '\t' + str(value[1]) + '\n')
