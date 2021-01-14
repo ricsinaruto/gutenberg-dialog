@@ -3,16 +3,19 @@
 Code for downloading and building your own version of the Gutenberg Dialog Dataset. Easily extendable with new languages.  
 
 ## Download datasets
-### [English](https://mega.nz/file/uZ8iFL4J#__kDHoJVhgv7JOl4sKQtPoTW9COHhlKdzd2U8m95ej0)
-### [German](https://mega.nz/file/jVlGmTbY#gT_-3xMNi2FX5782ybGLcqz2DiCMtE_Ga6QIPZYB8qg)
-### [Spanish](https://mega.nz/file/SZ8GiRoY#9oEAG5EYzlKFSiSh_9dpNRhEwVa8m9_GMSDBDH_z7ZE)
-### [Portuguese](https://mega.nz/file/eMkgmRIC#7zdi0VGhCZSG2ULqFi6MU0NXndwlhgTEJCaXcvki8sA)
-### [Hungarian](https://mega.nz/file/GNFCUJhS#8uEsZa53uCTEzI04_TzzDHmvGmfgbpXAhY5N-unPStM)
-### [Italian](https://mega.nz/file/vJF2DDSC#3b-Qjeqi85hhcLeDyun16DIYUMB4iNwGUn47BTBKu6I)
-### [Dutch](https://mega.nz/file/DRFEXTiK#Dh5adlppRc7yoBsZUhf3jPwJvTpZgoyixdw8ELRLjW0)
 
-## Download responses from GPT2 trainings
-### [Responses](https://mega.nz/file/KEkmFBIS#jI4CNeUifjSjVytayl7pXZHiUOMConFifeusP_rUb1c)
+|Download link | Number of utterances | Average utterance length | Number of dialogues | Average dialogue length |
+| :--- | ---: | ---: | ---: | ---: | 
+|[**English**](https://mega.nz/file/uZ8iFL4J#__kDHoJVhgv7JOl4sKQtPoTW9COHhlKdzd2U8m95ej0)| 14 773 741 | 22.17 | 2 526 877 | 5.85 |
+|[**German**](https://mega.nz/file/jVlGmTbY#gT_-3xMNi2FX5782ybGLcqz2DiCMtE_Ga6QIPZYB8qg) | 226 015 | 24.44 | 43 440 | 5.20 |
+|[**Dutch**](https://mega.nz/file/DRFEXTiK#Dh5adlppRc7yoBsZUhf3jPwJvTpZgoyixdw8ELRLjW0) | 129 471 | 24.26 | 23 541 | 5.50 |
+|[**Spanish**](https://mega.nz/file/SZ8GiRoY#9oEAG5EYzlKFSiSh_9dpNRhEwVa8m9_GMSDBDH_z7ZE) | 58 174 | 18.62 | 6 912 | 8.42 |
+|[**Italian**](https://mega.nz/file/vJF2DDSC#3b-Qjeqi85hhcLeDyun16DIYUMB4iNwGUn47BTBKu6I) | 41 388 | 19.47 | 6 664 | 6.21 |
+|[**Hungarian**](https://mega.nz/file/GNFCUJhS#8uEsZa53uCTEzI04_TzzDHmvGmfgbpXAhY5N-unPStM) | 18 816 | 14.68 | 2 826 | 6.66 |
+|[**Portuguese**](https://mega.nz/file/eMkgmRIC#7zdi0VGhCZSG2ULqFi6MU0NXndwlhgTEJCaXcvki8sA) | 16 228 | 21.40 | 2 233 | 7.27 |
+
+
+### Download responses from GPT2 trainings [here](https://mega.nz/file/KEkmFBIS#jI4CNeUifjSjVytayl7pXZHiUOMConFifeusP_rUb1c)
 
 ## Features
   :twisted_rightwards_arrows: &nbsp; Generate your own dataset by tuning parameters affecting the size-quality trade-off of the dataset  
