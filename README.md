@@ -1,7 +1,24 @@
-# gutenberg-dialog ([Download the English dataset](https://mega.nz/file/HcNGCKSQ#kL5PX6CecFfDtqRq0y_onbg-ozt_OmBQBdbXq8vcVag))
+# gutenberg-dialog &middot; [![twitter](https://img.shields.io/twitter/url/https/shields.io.svg?style=social)](https://ctt.ac/GZedD)
+[![Paper](https://img.shields.io/badge/Accepted%20at-EACL%202021-yellow.svg)](https://arxiv.org/abs/2004.12752)  
 Code for downloading and building your own version of the Gutenberg Dialog Dataset. Easily extendable with new languages.  
-* Paper: https://arxiv.org/abs/2004.12752  
-* [Languages statistics](https://docs.google.com/spreadsheets/d/15v7lhZJusknd6UfnPfaHIriKvIlShFq2tqTsU7M82bI/edit?usp=sharing)
+
+## Download datasets
+### [English](https://mega.nz/file/uZ8iFL4J#__kDHoJVhgv7JOl4sKQtPoTW9COHhlKdzd2U8m95ej0)
+### [German](https://mega.nz/file/jVlGmTbY#gT_-3xMNi2FX5782ybGLcqz2DiCMtE_Ga6QIPZYB8qg)
+### [Spanish](https://mega.nz/file/SZ8GiRoY#9oEAG5EYzlKFSiSh_9dpNRhEwVa8m9_GMSDBDH_z7ZE)
+### [Portuguese](https://mega.nz/file/eMkgmRIC#7zdi0VGhCZSG2ULqFi6MU0NXndwlhgTEJCaXcvki8sA)
+### [Hungarian](https://mega.nz/file/GNFCUJhS#8uEsZa53uCTEzI04_TzzDHmvGmfgbpXAhY5N-unPStM)
+### [Italian](https://mega.nz/file/vJF2DDSC#3b-Qjeqi85hhcLeDyun16DIYUMB4iNwGUn47BTBKu6I)
+### [Dutch](https://mega.nz/file/DRFEXTiK#Dh5adlppRc7yoBsZUhf3jPwJvTpZgoyixdw8ELRLjW0)
+
+## Download responses from GPT2 trainings
+### [Responses](https://mega.nz/file/KEkmFBIS#jI4CNeUifjSjVytayl7pXZHiUOMConFifeusP_rUb1c)
+
+## Features
+  :twisted_rightwards_arrows: &nbsp; Generate your own dataset by tuning parameters affecting the size-quality trade-off of the dataset  
+  :rocket: &nbsp; The modular interface makes it easy to extend the dataset to other languages  
+  :floppy_disk: &nbsp; You can easily exclude books manually when building the dataset  
+
 
 ## Setup
 Run setup.py which installs required packages.
@@ -38,6 +55,8 @@ Putting together the final dataset and splitting into train/dev/test data. The f
 ## Extending to other languages
 The code can be easily extended to process other languages. A file named \<language code\>.py has to be created in the languages folder. Here a class should be defined named the upper-case language code (e.g. *En* for English), with [LANG](https://github.com/ricsinaruto/gutenberg-dialog/blob/master/code/languages/lang.py) or any of the other subclasses as parent. With *self.cfg* config parameters can be accessed. Inside this class the 3 functions below have to be defined. Please see [it.py](https://github.com/ricsinaruto/gutenberg-dialog/blob/master/code/languages/it.py) for an example.
 
+[Languages statistics](https://docs.google.com/spreadsheets/d/15v7lhZJusknd6UfnPfaHIriKvIlShFq2tqTsU7M82bI/edit?usp=sharing)
+
 ### delimiters
 This function should return a dictionary where the keys are potential delimiters. For each delimiter a function should be defined (values in dictionary), which takes as input a line and returns a number. This number can be for example the count of delimiters, a flag whether there is a delimiter in the line, etc. Usually a weighted count is advisable, depending on the importance of different delimiters. The values will be used to determine the delimiter that should be used in the respective book (passed to the function below), and for filtering books which contain a low amount of delimiters. [en.py](https://github.com/ricsinaruto/gutenberg-dialog/blob/master/code/languages/en.py) contains examples of multiple delimiters.
 
@@ -46,3 +65,22 @@ This function should extract the dialogs from a book and append them to *self.di
 
 ### clean_line(line)
 This function is used for post-processing dialogs (e.g. remove certain characters). It takes as input an utterance. Please note that nltk word tokenization is run automatically.
+
+
+## Authors
+* **[Richard Csaky](https://ricsinaruto.github.io)** (If you need any help with running the code: ricsinaruto@hotmail.com)
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/ricsinaruto/gutenberg-dialog/blob/master/LICENSE) file for details.  
+Please include a link to this repo if you use any of the dataset or code in your work and consider citing the following paper:
+```
+@inproceedings{Csaky:2021,
+    title = "The Gutenberg Dialogue Dataset",
+    author = "Cs{\'a}ky, Rich{\'a}rd and Recski, G{\'a}bor",
+    booktitle = "Proceedings of the 16th Conference of the European Chapter of the Association for Computational Linguistics",
+    month = apr,
+    year = "2021",
+    publisher = "Association for Computational Linguistics",
+    url = "https://arxiv.org/abs/2004.12752",
+}
+```
