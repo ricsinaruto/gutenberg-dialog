@@ -1,6 +1,7 @@
 # gutenberg-dialog &middot; [![twitter](https://img.shields.io/twitter/url/https/shields.io.svg?style=social)](https://ctt.ac/GZedD)
 [![Paper](https://img.shields.io/badge/Accepted%20at-EACL%202021-yellow.svg)](https://arxiv.org/abs/2004.12752)  
-Code for downloading and building your own version of the Gutenberg Dialog Dataset. Easily extendable with new languages.  
+Code for downloading and building your own version of the [Gutenberg Dialog Dataset](https://arxiv.org/abs/2004.12752). Easily extendable with new languages.  
+
 
 ## Download datasets
 
@@ -15,7 +16,11 @@ Code for downloading and building your own version of the Gutenberg Dialog Datas
 |[**Portuguese**](https://mega.nz/file/eMkgmRIC#7zdi0VGhCZSG2ULqFi6MU0NXndwlhgTEJCaXcvki8sA) | 16 228 | 21.40 | 2 233 | 7.27 |
 
 
-### Download responses from GPT2 trainings [here](https://mega.nz/file/KEkmFBIS#jI4CNeUifjSjVytayl7pXZHiUOMConFifeusP_rUb1c)
+## Download resources for The Gutenberg Dialogue Dataset paper
+#### Download responses from GPT2 trainings [here](https://mega.nz/file/KEkmFBIS#jI4CNeUifjSjVytayl7pXZHiUOMConFifeusP_rUb1c)
+#### Download data used in the paper [here](https://mega.nz/file/aIcTiIZR#ZAvDCYOcIaPedfSDXRaLK5-panAJ-Wai99JCMuiIpe4)
+#### Download trained models [here](https://mega.nz/file/WcMXBCRZ#9XRnMKPm8t7-YHSVESjGeAHc9l7Ll_3WxQarfIfDfKg)
+##### The gpt2_training_scripts folder contains code for running the trainings from the paper. Code adapted from [here](https://github.com/huggingface/transfer-learning-conv-ai).
 
 ## Features
   :twisted_rightwards_arrows: &nbsp; Generate your own dataset by tuning parameters affecting the size-quality trade-off of the dataset  
