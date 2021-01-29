@@ -1,6 +1,7 @@
 # gutenberg-dialog &middot; [![twitter](https://img.shields.io/twitter/url/https/shields.io.svg?style=social)](https://ctt.ac/GZedD)
-[![Paper](https://img.shields.io/badge/Accepted%20at-EACL%202021-yellow.svg)](https://arxiv.org/abs/2004.12752)  
-Code for downloading and building your own version of the [Gutenberg Dialog Dataset](https://arxiv.org/abs/2004.12752). Easily extendable with new languages.  
+[![Paper](https://img.shields.io/badge/Accepted%20at-EACL%202021-yellow.svg)](https://arxiv.org/abs/2004.12752)
+[![Paper](https://img.shields.io/badge/Try-Chatbot-red.svg)](https://ricsinaruto.github.io/)  
+Code for downloading and building your own version of the [Gutenberg Dialog Dataset](https://arxiv.org/abs/2004.12752). Easily extendable with new languages. Try trained chatbots in various languages here: https://ricsinaruto.github.io/.
 
 
 ## Download datasets
