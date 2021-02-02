@@ -49,6 +49,12 @@ The *-a* flag controls whether to run the whole pipeline automatically. If *-a* 
 #### 1. Download (-d)
 Download books for given languages.
 
+**Note:** if all books fail to download with the error "Could not download book", a likely cause is that the default mirror used by the *gutenberg* package has become inaccessible. In the event that this occurs, it is possible to use any of the alternate mirrors listed at https://www.gutenberg.org/MIRRORS.ALL via the *GUTENBERG_MIRROR* environment variable. For example:
+```
+export GUTENBERG_MIRROR="https://gutenberg.pglaf.org"
+python code/main.py ...
+```
+
 #### 2. Pre-filter (-f1)
 Pre-filtering removes some old books and noise.
 
